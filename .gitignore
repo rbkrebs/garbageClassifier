@@ -1,0 +1,13 @@
+garbageClassifierApp/node_modules/
+garbageClassifierApp/.expo/
+garbageClassifierApp/npm-debug.*
+garbageClassifierApp/*.jks
+garbageClassifierApp/*.p8
+garbageClassifierApp/*.p12
+garbageClassifierApp/*.key
+garbageClassifierApp/*.mobileprovision
+garbageClassifierApp/*.orig.*
+garbageClassifierApp/web-build/
+
+# macOS
+garbageClassifierApp/.DS_Store

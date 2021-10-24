@@ -1,15 +1,27 @@
 import React from "react";
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createStackNavigator } from '@react-navigation/stack'
 import { Welcome } from "../pages/Welcome";
-import { Content } from "../pages/Content";
+import NavBarRoutes from "../routes/navBarRoutes";
+import colors from "../styles/colors";
 
-const StackRoutes = createNativeStackNavigator()
+
+const StackRoutes = createStackNavigator()
 
 function MyStack() {
     return (
-        <StackRoutes.Navigator>
+        <StackRoutes.Navigator
+
+            screenOptions={{
+                headerShown: false,
+
+                cardStyle: {
+                    backgroundColor: colors.white
+                }
+            }}
+        >
             <StackRoutes.Screen name="Welcome" component={Welcome} />
-            <StackRoutes.Screen name="Content" component={Content} />
+            <StackRoutes.Screen name="Content" component={NavBarRoutes} />
+
         </StackRoutes.Navigator>
     )
 }

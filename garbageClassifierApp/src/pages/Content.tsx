@@ -13,7 +13,7 @@ import colors from "../styles/colors";
 
 export function Content() {
     return (
-        <SafeAreaView >
+        <SafeAreaView style={styles.container} >
 
             <NavBarRoutes />
 

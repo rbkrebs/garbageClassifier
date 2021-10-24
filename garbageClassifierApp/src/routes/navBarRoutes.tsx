@@ -8,6 +8,7 @@ import { LastActivities } from '../pages/LastActivities';
 
 
 import { FontAwesome, MaterialIcons, AntDesign } from "@expo/vector-icons";
+import colors from "../styles/colors";
 
 
 const Tab = createBottomTabNavigator();
@@ -19,22 +20,22 @@ export default function NavBarRoutes() {
         <Tab.Navigator
 
             screenOptions={{
-                style: {
-                    backgroundColor: '#121212',
-                    borderTopColor: 'transparent',
-                    height: 80,
-
-
+                tabBarActiveTintColor: colors.green_selected,
+                tabBarInactiveTintColor: colors.green_unselected,
+                tabBarLabelPosition: 'below-icon',
+                tabBarLabelStyle: {
+                    fontSize: 12,
+                    fontWeight: 'bold'
                 },
-                tabStyle: {
-                    paddingBottom: 15,
-                },
-                labelStyle: {
-                    fontSize: 20,
+                tabBarStyle: {
+
+                    height: 88,
 
                 }
+            }}
 
-            }}>
+        >
+
             <Tab.Screen
                 name="Tirar foto"
                 component={TakePicture}

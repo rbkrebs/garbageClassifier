@@ -1,21 +1,22 @@
 import React from "react";
 import {
     StyleSheet,
-    SafeAreaView,
+    View,
     Image,
-    Dimensions
+    Dimensions,
+    SafeAreaView
 } from "react-native";
 
 import nature from '../assets/nature.png';
 import recycle from '../assets/garbage_classifier.png'
 import { TouchableButton } from "../components/TouchableButton";
 import colors from "../styles/colors";
-
-
-
-
+import { useNavigation } from "@react-navigation/core";
 
 export function Welcome() {
+
+    const navigation = useNavigation()
+
 
     return (
 
@@ -34,13 +35,15 @@ export function Welcome() {
             />
             <TouchableButton
                 title="Entrar"
+                onPress={() => navigation.navigate('Content')}
             />
         </SafeAreaView>
     )
 
 }
 
-
+// TODO 
+/* - arrumar o parametro navigate */
 const styles = StyleSheet.create({
     container: {
         flex: 1,

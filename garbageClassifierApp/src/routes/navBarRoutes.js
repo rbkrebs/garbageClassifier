@@ -2,9 +2,9 @@ import React from "react";
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { TakePicture } from './pages/TakePicture';
-import { Welcome } from './pages/Welcome';
-import { TrainModel } from './pages/TrainModel';
+import { TakePicture } from '../pages/TakePicture';
+import { TrainModel } from '../pages/TrainModel';
+import { LastActivities } from '../pages/LastActivities';
 
 
 import { FontAwesome, MaterialIcons, AntDesign } from "@expo/vector-icons";
@@ -13,7 +13,7 @@ import { FontAwesome, MaterialIcons, AntDesign } from "@expo/vector-icons";
 const Tab = createBottomTabNavigator();
 
 
-export default function Routes() {
+export default function NavBarRoutes() {
 
     return (
         <Tab.Navigator
@@ -57,7 +57,7 @@ export default function Routes() {
 
             <Tab.Screen
                 name="Histórico"
-                component={Welcome}
+                component={LastActivities}
                 options={{
                     tabBarIcon: ({ size, color }) => (
 

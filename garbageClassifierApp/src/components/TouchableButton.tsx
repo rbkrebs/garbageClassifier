@@ -6,6 +6,7 @@ import colors from "../styles/colors";
 
 interface ButtonProps {
     title: string
+
 }
 
 export function TouchableButton({ title }: ButtonProps) {

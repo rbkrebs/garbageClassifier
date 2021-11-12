@@ -5,13 +5,18 @@ import {
     Text,
     SafeAreaView
 } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import NavBarRoutes from '../routes/navBarRoutes';
 
 import colors from "../styles/colors";
 
 
-export function TakePicture() {
+export function Content() {
     return (
-        <SafeAreaView><Text>OI</Text></SafeAreaView>
+        <SafeAreaView style={styles.container} >
+            <StatusBar style="auto" />
+            <NavBarRoutes />
+        </SafeAreaView>
     )
 }
 

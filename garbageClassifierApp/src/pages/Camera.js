@@ -7,7 +7,9 @@ import {
     View,
     SafeAreaView,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Modal,
+    Image
 } from 'react-native';
 import { Camera } from 'expo-camera'
 import { useIsFocused } from '@react-navigation/native';
@@ -15,6 +17,7 @@ import { useIsFocused } from '@react-navigation/native';
 import axios from 'axios';
 
 import colors from "../styles/colors";
+import { FontAwesome } from '@expo/vector-icons';
 
 
 export function CameraPage(props) {
@@ -25,6 +28,8 @@ export function CameraPage(props) {
     const [type] = useState(Camera.Constants.Type.back)
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
     const isFocused = useIsFocused()
+    const [capturedPicture, setCapturedPicture] = useState(null)
+    const [openModal, setOpenModal] = useState(false)
 
 
 
@@ -52,9 +57,10 @@ export function CameraPage(props) {
 
         if (camRef) {
             const data = await camRef.current.takePictureAsync();
+            setCapturedPicture(data.uri)
             const picture = new FormData()
 
-            console.log(data)
+
             picture.append('uploadImage', {
                 name: "imagem.jpg",
                 uri: data.uri,
@@ -62,15 +68,17 @@ export function CameraPage(props) {
 
             });
 
+            setOpenModal(true)
 
-            await axios.post(`${BASE_URL}/upload/teste`, picture, {
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then((response) => {
-                console.log(response.data);
-            });
+
+            // await axios.post(`${BASE_URL}/upload/teste`, picture, {
+            //     headers: {
+            //         Accept: 'application/json',
+            //         'Content-Type': 'multipart/form-data'
+            //     }
+            // }).then((response) => {
+            //     console.log(response.data);
+            // });
 
 
 
@@ -118,6 +126,35 @@ export function CameraPage(props) {
                         </TouchableOpacity>
                     </View>
                 </>
+            }
+            {
+                capturedPicture && <Modal
+
+                    animationType='slide'
+                    transparent={false}
+                    visible={openModal}
+                >
+                    <View
+                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', margin: 20 }}
+                    >
+
+                        <Image
+                            style={{ width: '100%', height: 300, borderRadius: 20 }}
+                            source={{ uri: capturedPicture }}
+                        />
+                        <TouchableOpacity style={{ margin: 10 }} onPress={() => setOpenModal(false)}>
+                            <Text>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ margin: 10 }} onPress={() => setOpenModal(false)}>
+                            <Text>Classificar</Text>
+                        </TouchableOpacity>
+                    </View>
+
+
+
+                </Modal>
+
+
             }
         </SafeAreaView>
     )

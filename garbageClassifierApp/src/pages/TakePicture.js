@@ -1,15 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Modal, Button, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
+
 
 import { CameraPage } from './Camera';
 import colors from "../styles/colors";
 
 
 
-
 export function TakePicture() {
-
 
 
     return (

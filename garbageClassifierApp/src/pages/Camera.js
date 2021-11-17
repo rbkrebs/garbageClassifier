@@ -11,15 +11,19 @@ import {
 } from 'react-native';
 import { Camera } from 'expo-camera'
 import { useIsFocused } from '@react-navigation/native';
+
+import axios from 'axios';
+
 import colors from "../styles/colors";
 
 
 export function CameraPage(props) {
 
+    const BASE_URL = 'http://192.168.1.17:3000';
+
     const camRef = useRef(null)
-    const [type, setType] = useState(Camera.Constants.Type.back)
+    const [type] = useState(Camera.Constants.Type.back)
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
-    const [capturedPicture, setCapturedPicture] = useState(null);
     const isFocused = useIsFocused()
 
 
@@ -44,11 +48,35 @@ export function CameraPage(props) {
 
     async function takePicture() {
 
+
+
         if (camRef) {
             const data = await camRef.current.takePictureAsync();
+            const picture = new FormData()
+
             console.log(data)
-            setCapturedPicture(data.uri)
+            picture.append('uploadImage', {
+                name: "imagem.jpg",
+                uri: data.uri,
+                type: 'image/jpg'
+
+            });
+
+
+            await axios.post(`${BASE_URL}/upload/teste`, picture, {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then((response) => {
+                console.log(response.data);
+            });
+
+
+
         }
+
+
     }
 
     return (

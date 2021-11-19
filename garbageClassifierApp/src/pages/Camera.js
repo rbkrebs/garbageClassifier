@@ -30,6 +30,9 @@ export function CameraPage(props) {
     const isFocused = useIsFocused()
     const [capturedPicture, setCapturedPicture] = useState(null)
     const [openModal, setOpenModal] = useState(false)
+    const [showResult, setShowResult] = useState(false)
+    const resultClassification = ""
+    const resultProbability = ""
 
 
 
@@ -53,15 +56,13 @@ export function CameraPage(props) {
 
     async function takePicture() {
 
-
-
         if (camRef) {
             const data = await camRef.current.takePictureAsync();
             setCapturedPicture(data.uri)
             const picture = new FormData()
 
 
-            picture.append('uploadImage', {
+            picture.append('classifyImage', {
                 name: "imagem.jpg",
                 uri: data.uri,
                 type: 'image/jpg'
@@ -70,20 +71,20 @@ export function CameraPage(props) {
 
             setOpenModal(true)
 
-
-            // await axios.post(`${BASE_URL}/upload/teste`, picture, {
-            //     headers: {
-            //         Accept: 'application/json',
-            //         'Content-Type': 'multipart/form-data'
-            //     }
-            // }).then((response) => {
-            //     console.log(response.data);
-            // });
-
-
-
         }
 
+    }
+
+    async function requestClassification() {
+
+        await axios.post(`${BASE_URL}/upload/teste`, picture, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((response) => {
+            console.log(response.data);
+        });
 
     }
 
@@ -138,16 +139,55 @@ export function CameraPage(props) {
                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center', margin: 20 }}
                     >
 
-                        <Image
-                            style={{ width: '100%', height: 300, borderRadius: 20 }}
-                            source={{ uri: capturedPicture }}
-                        />
-                        <TouchableOpacity style={{ margin: 10 }} onPress={() => setOpenModal(false)}>
-                            <Text>Cancelar</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{ margin: 10 }} onPress={() => setOpenModal(false)}>
-                            <Text>Classificar</Text>
-                        </TouchableOpacity>
+                        {
+
+                            showResult ?
+                                <>
+                                    <Image
+                                        style={{ width: '100%', height: "70%", borderRadius: 20 }}
+                                        source={{ uri: capturedPicture }}
+                                    />
+                                    <View style={{ flex: 1, alignItems: "flex-start", justifyContent: "space-around", width: "100%" }}>
+                                        <Text>Classificação: {resultClassification}</Text>
+                                        <Text>Confiança: {resultProbability}</Text>
+                                    </View>
+                                    <View style={{
+
+                                        height: 90,
+
+
+                                    }}>
+                                        <TouchableOpacity style={styles.buttonResult} onPress={() => { setOpenModal(false); setShowResult(false) }}>
+                                            <Text style={{ fontSize: 20, fontWeight: "bold" }}>Voltar tela inicial</Text>
+                                        </TouchableOpacity>
+                                    </View>
+
+
+
+                                </>
+
+                                :
+                                <>
+                                    <Image
+                                        style={{ width: '100%', height: "90%", borderRadius: 20 }}
+                                        source={{ uri: capturedPicture }}
+                                    />
+                                    <View style={{
+                                        flex: 1,
+                                        flexDirection: "row"
+                                    }}>
+                                        <TouchableOpacity style={styles.button} onPress={() => setOpenModal(false)}>
+                                            <Text style={{ fontSize: 20, fontWeight: "bold" }}>Cancelar</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={styles.button} onPress={() => setShowResult(true)}>
+                                            <Text style={{ fontSize: 20, fontWeight: "bold" }}>Classificar</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </>
+
+                        }
+
+
                     </View>
 
 
@@ -167,6 +207,35 @@ const styles = StyleSheet.create({
 
         justifyContent: 'center',
         alignItems: 'center'
+
+    },
+    button: {
+        margin: 10,
+        padding: 20,
+        backgroundColor: colors.green_selected,
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10
+
+
+    },
+    showResult: {
+
+        flex: 1,
+        width: '100%',
+        justifyContent: "space-around",
+        alignItems: "center"
+
+    },
+    buttonResult: {
+
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: colors.green_selected,
+        padding: 10,
+        borderRadius: 10
 
     }
 });

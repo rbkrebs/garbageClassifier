@@ -41,11 +41,6 @@ app.get('/', (req, res) => {
 
 app.post('/upload/:classification', upload.single('uploadImage'), (req, res) => {
 
-    console.log("upload")
-
-    console.log(req.params.classification)
-
-    console.log(req.file)
 
     res.send('ok')
 
@@ -58,6 +53,18 @@ app.get('/download', (req, res) => {
     console.log("download")
 
     res.send('ok')
+
+
+})
+
+app.post('/classify', upload.single('classifyImage'), (req, res) => {
+
+
+    res.send({
+        status: 200,
+        classification: imagesClassification[2],
+        probability: "78%"
+    })
 
 
 })

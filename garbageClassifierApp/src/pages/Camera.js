@@ -31,8 +31,10 @@ export function CameraPage(props) {
     const [capturedPicture, setCapturedPicture] = useState(null)
     const [openModal, setOpenModal] = useState(false)
     const [showResult, setShowResult] = useState(false)
-    const resultClassification = ""
-    const resultProbability = ""
+    const [pictureFormData, setPictureFormData] = useState(null)
+    const [resultClassification, setResultClassification] = useState(null)
+    const [resultProbability, setResultProbability] = useState(null)
+
 
 
 
@@ -68,6 +70,7 @@ export function CameraPage(props) {
                 type: 'image/jpg'
 
             });
+            setPictureFormData(picture)
 
             setOpenModal(true)
 
@@ -77,13 +80,18 @@ export function CameraPage(props) {
 
     async function requestClassification() {
 
-        await axios.post(`${BASE_URL}/upload/teste`, picture, {
+
+
+        await axios.post(`${BASE_URL}/classify`, pictureFormData, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'multipart/form-data'
             }
         }).then((response) => {
-            console.log(response.data);
+
+            setResultClassification(response.data.classification);
+            setResultProbability(response.data.probability);
+            setShowResult(true);
         });
 
     }
@@ -93,9 +101,7 @@ export function CameraPage(props) {
             {
 
                 isFocused && <>
-
                     <Camera
-
                         style={{ flex: 1, width: '100%', }}
                         type={type}
                         ref={camRef}
@@ -136,11 +142,9 @@ export function CameraPage(props) {
                     visible={openModal}
                 >
                     <View
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', margin: 20 }}
-                    >
+                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', margin: 20 }}                    >
 
                         {
-
                             showResult ?
                                 <>
                                     <Image
@@ -152,20 +156,13 @@ export function CameraPage(props) {
                                         <Text>Confiança: {resultProbability}</Text>
                                     </View>
                                     <View style={{
-
                                         height: 90,
-
-
                                     }}>
                                         <TouchableOpacity style={styles.buttonResult} onPress={() => { setOpenModal(false); setShowResult(false) }}>
                                             <Text style={{ fontSize: 20, fontWeight: "bold" }}>Voltar tela inicial</Text>
                                         </TouchableOpacity>
                                     </View>
-
-
-
                                 </>
-
                                 :
                                 <>
                                     <Image
@@ -179,22 +176,14 @@ export function CameraPage(props) {
                                         <TouchableOpacity style={styles.button} onPress={() => setOpenModal(false)}>
                                             <Text style={{ fontSize: 20, fontWeight: "bold" }}>Cancelar</Text>
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={styles.button} onPress={() => setShowResult(true)}>
+                                        <TouchableOpacity style={styles.button} onPress={() => requestClassification()}>
                                             <Text style={{ fontSize: 20, fontWeight: "bold" }}>Classificar</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </>
-
                         }
-
-
                     </View>
-
-
-
                 </Modal>
-
-
             }
         </SafeAreaView>
     )

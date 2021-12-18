@@ -6,17 +6,22 @@ import {
     SafeAreaView
 } from 'react-native';
 
+import { CameraTrain } from './CameraTrain';
+
 import colors from "../styles/colors";
 
 
 export function TrainModel() {
     return (
-        <SafeAreaView><Text>OI</Text></SafeAreaView>
+        <SafeAreaView style={styles.container}>
+            <CameraTrain />
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
+
         flex: 1,
         backgroundColor: colors.white,
         alignItems: 'center',

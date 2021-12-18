@@ -57,12 +57,12 @@ export default function NavBarRoutes() {
             />
 
             <Tab.Screen
-                name="Histórico"
+                name="Dicas"
                 component={LastActivities}
                 options={{
                     tabBarIcon: ({ size, color }) => (
 
-                        <FontAwesome name="history" size={size} color={color} />
+                        <FontAwesome name="info-circle" size={size} color={color} />
 
 
                     )

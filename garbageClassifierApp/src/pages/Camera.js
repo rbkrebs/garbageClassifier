@@ -17,10 +17,11 @@ import { useIsFocused } from '@react-navigation/native';
 import axios from 'axios';
 
 import colors from "../styles/colors";
-import { FontAwesome } from '@expo/vector-icons';
 
 
-export function CameraPage(props) {
+export function CameraPage() {
+
+
 
     const BASE_URL = 'http://192.168.1.17:3000';
 
@@ -177,7 +178,7 @@ export function CameraPage(props) {
                                             <Text style={{ fontSize: 20, fontWeight: "bold" }}>Cancelar</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity style={styles.button} onPress={() => requestClassification()}>
-                                            <Text style={{ fontSize: 20, fontWeight: "bold" }}>Classificar</Text>
+                                            <Text style={{ fontSize: 20, fontWeight: "bold" }}>Enviar</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </>

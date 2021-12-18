@@ -9,5 +9,17 @@ garbageClassifierApp/*.mobileprovision
 garbageClassifierApp/*.orig.*
 garbageClassifierApp/web-build/
 
+server_images/uploads
+server_images/model.json
+server_images/group*
+
+novo_modelo
+datasets
+1604.04004.pdf
+my_model.h5
+Seminário de Andamento.pdf
+Seminário de Andamento.pptx
+tcc_exemplo
+
 # macOS
 garbageClassifierApp/.DS_Store

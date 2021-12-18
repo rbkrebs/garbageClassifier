@@ -9,9 +9,9 @@ import {
     Text,
     TouchableOpacity,
     Modal,
-    Image
+
 } from 'react-native';
-import { Camera } from 'expo-camera'
+import { CameraPage } from './Camera';
 import { useIsFocused } from '@react-navigation/native';
 
 import axios from 'axios';
@@ -21,62 +21,27 @@ import colors from "../styles/colors";
 
 export function CameraTrain() {
 
+    //TODO criar variável state global para encerrar modal
+    // caso -> após tirar a foto, se clicar em cancelar o app volta para a camera e não para a cameratrain
+
 
 
     const BASE_URL = 'http://192.168.1.17:3000';
 
-    const camRef = useRef(null)
-    const [type] = useState(Camera.Constants.Type.back)
-    const [hasCameraPermission, setHasCameraPermission] = useState(null);
-    const isFocused = useIsFocused()
-    const [capturedPicture, setCapturedPicture] = useState(null)
+
     const [openModal, setOpenModal] = useState(false)
-    const [showResult, setShowResult] = useState(false)
+
     const [pictureFormData, setPictureFormData] = useState(null)
-    const [resultClassification, setResultClassification] = useState(null)
-    const [resultProbability, setResultProbability] = useState(null)
+
     const [classification, setclassification] = useState(null)
 
 
 
-
-    useEffect(() => {
-        (async () => {
-            const { status } = await Camera.requestCameraPermissionsAsync();
-            setHasCameraPermission(status === 'granted');
-        })();
-    }, []);
-
-
-
-    if (hasCameraPermission === null) {
-        return <Text>Requesting for camera permission</Text>;
-    }
-
-    if (hasCameraPermission === false) {
-        return <Text>Acesso Negado!</Text>;
-    }
-
-
     async function takePicture() {
 
-        if (camRef) {
-            const data = await camRef.current.takePictureAsync();
-            setCapturedPicture(data.uri)
-            const picture = new FormData()
 
+        setOpenModal(true)
 
-            picture.append('datasetImage', {
-                name: "imagem.jpg",
-                uri: data.uri,
-                type: 'image/jpg'
-
-            });
-            setPictureFormData(picture)
-
-            setOpenModal(true)
-
-        }
 
     }
 
@@ -109,7 +74,7 @@ export function CameraTrain() {
 
             <View style={{ flex: 2, justifyContent: "space-between", height: 200 }} >
 
-                <TouchableOpacity style={styles.button} onPress={() => setOpenModal(false)}>
+                <TouchableOpacity style={styles.button} onPress={() => takePicture()}>
                     <Text style={{ fontSize: 20, fontWeight: "bold" }}>Orgânico</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => requestClassification()}>
@@ -121,6 +86,13 @@ export function CameraTrain() {
             </View>
 
             <View style={{ flex: 1, justifyContent: "space-between" }} />
+            <Modal
+                animationType='slide'
+                transparent={false}
+                visible={openModal}
+            >
+                <CameraPage />
+            </Modal>
 
 
 
